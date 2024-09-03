@@ -17,7 +17,7 @@ public class PlayerWalk : MonoBehaviour, IState<PlayerContoller>
         {
             if (m_Contoller.moveSpeed > 0)
             {
-                m_Contoller.transform.Translate(Vector2.right * (float)m_Contoller.currentDirection * (m_Contoller.moveSpeed * Time.deltaTime));
+                m_Contoller.body.velocity = new Vector2((float)m_Contoller.currentDirection * m_Contoller.moveSpeed, m_Contoller.body.velocity.y);
             }
         }
     }
@@ -26,6 +26,7 @@ public class PlayerWalk : MonoBehaviour, IState<PlayerContoller>
         if (m_Contoller)
         {
             m_Contoller.moveSpeed = 0;
+            m_Contoller.body.velocity = new Vector2(0, m_Contoller.body.velocity.y);
         }
     }
 }

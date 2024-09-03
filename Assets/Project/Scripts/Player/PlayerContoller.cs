@@ -11,6 +11,7 @@ public class PlayerContoller : MonoBehaviour
         Run
     }
     public float moveSpeed;
+    public Rigidbody2D body;
 
     public enum Direction
     {
@@ -24,9 +25,11 @@ public class PlayerContoller : MonoBehaviour
 
     private void Start()
     {
-        IState<PlayerContoller> idle = new PlayerIdle();
-        IState<PlayerContoller> walk = new PlayerWalk();
-        IState<PlayerContoller> run = new PlayerRun();
+        body = GetComponent<Rigidbody2D>();
+
+        IState<PlayerContoller> idle = gameObject.AddComponent<PlayerIdle>();
+        IState<PlayerContoller> walk = gameObject.AddComponent<PlayerWalk>();
+        IState<PlayerContoller> run = gameObject.AddComponent<PlayerRun>();
 
         dicState.Add(PlayerState.Idle, idle);
         dicState.Add(PlayerState.Walk, walk);
