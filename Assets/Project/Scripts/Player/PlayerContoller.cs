@@ -130,7 +130,60 @@ public class PlayerContoller : MonoBehaviour
             stateMachine.SetState(dicState[PlayerState.Idle]);
         }
 
+        // 마우스 왼쪽 버튼 클릭 감지
+        if (Input.GetMouseButtonDown(0))
+        {
+            // 마우스 위치를 월드 좌표로 변환
+            Vector2 rayPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(rayPos, Vector2.zero);
+
+            // Ray가 어떤 2D 오브젝트에 충돌했는지 체크
+            if (hit.collider != null)
+            {
+                if (PlayerManager.Instance.canOpen)
+                {
+                    // hit 오브젝트의 정보 가져오기
+                    GameObject clickedObject = hit.collider.gameObject;
+                    Debug.Log("Clicked on: " + clickedObject.tag);
+
+                    // 여기에 클릭된 오브젝트에 대한 처리 코드 작성
+                }
+            }
+        }
+
+
         stateMachine.DOOperateUpdate();
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("FrontDoor"))
+        {
+            PlayerManager.Instance.canOpen = true;
+        }
+        if (collision.CompareTag("LeftDoor"))
+        {
+            PlayerManager.Instance.canOpen = true;
+        }
+        if (collision.CompareTag("RightDoor"))
+        {
+            PlayerManager.Instance.canOpen = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("FrontDoor"))
+        {
+            PlayerManager.Instance.canOpen = false;
+        }
+        if (collision.CompareTag("LeftDoor"))
+        {
+            PlayerManager.Instance.canOpen = false;
+        }
+        if (collision.CompareTag("RightDoor"))
+        {
+            PlayerManager.Instance.canOpen = false;
+        }
+    }
 }
